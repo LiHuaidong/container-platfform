@@ -3,6 +3,7 @@ package hdli.auth.service;
 import hdli.auth.model.dto.UserDetailDTO;
 import hdli.auth.model.dto.UserLoginDTO;
 import hdli.auth.model.dto.UserRegisterDTO;
+import io.jsonwebtoken.Claims;
 
 /**
  * Description:
@@ -18,4 +19,6 @@ public interface IAuthService {
     String refreshToken(String token);
 
     void logout(String token);
+
+    Claims validateToken(String token);
 }

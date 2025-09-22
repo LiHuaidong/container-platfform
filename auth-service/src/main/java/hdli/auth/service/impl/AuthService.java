@@ -73,4 +73,9 @@ public class AuthService implements IAuthService {
             throw new RuntimeException("Invalid or expired token");
         }
     }
+
+    @Override
+    public Claims validateToken(String token) {
+        return jwtUtil.validateToken(token);
+    }
 }

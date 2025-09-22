@@ -17,7 +17,7 @@ public class PermissionController {
     @Autowired
     private PermissionService permissionService;
 
-    @GetMapping
+    @GetMapping()
     public List<UserProjectPermissionsDTO> getPermissions(@RequestParam Long userId, @RequestParam Long projectId, @RequestParam(name = "roleId", required = false) Long roleId) {
         return permissionService.getPermissions(userId, projectId, roleId);
     }
