@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hdli.auth.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="hdli.auth.model.po.UserPO">
+    <!--@mbg.generated-->
+    <!--@Table user-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="password_hash" jdbcType="VARCHAR" property="passwordHash" />
+    <result column="enabled" jdbcType="BOOLEAN" property="enabled" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, username, email, password_hash, enabled, created_at, updated_at
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where email = #{email,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="hdli.auth.model.po.UserPO"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+    insert into user (username, email, password_hash,
+      enabled, created_at, updated_at
+      )
+    values (#{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{passwordHash,jdbcType=VARCHAR}, 
+      #{enabled,jdbcType=BOOLEAN}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="hdli.auth.model.po.UserPO" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="passwordHash != null">
+        password_hash,
+      </if>
+      <if test="enabled != null">
+        enabled,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordHash != null">
+        #{passwordHash,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=BOOLEAN},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="hdli.auth.model.po.UserPO">
+    <!--@mbg.generated-->
+    update user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordHash != null">
+        password_hash = #{passwordHash,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled,jdbcType=BOOLEAN},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="hdli.auth.model.po.UserPO">
+    <!--@mbg.generated-->
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      password_hash = #{passwordHash,jdbcType=VARCHAR},
+      enabled = #{enabled,jdbcType=BOOLEAN},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hdli.auth.mapper.ProjectMapper">
+  <resultMap id="BaseResultMap" type="hdli.auth.model.po.ProjectPO">
+    <!--@mbg.generated-->
+    <!--@Table project-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+    <result column="owner_id" jdbcType="BIGINT" property="ownerId" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, description, owner_id, created_at
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from project
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from project
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="hdli.auth.model.po.ProjectPO" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into project (`name`, description, owner_id, 
+      created_at)
+    values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}, #{ownerId,jdbcType=BIGINT}, 
+      #{createdAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="hdli.auth.model.po.ProjectPO" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="ownerId != null">
+        owner_id,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="hdli.auth.model.po.ProjectPO">
+    <!--@mbg.generated-->
+    update project
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="ownerId != null">
+        owner_id = #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="hdli.auth.model.po.ProjectPO">
+    <!--@mbg.generated-->
+    update project
+    set `name` = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR},
+      owner_id = #{ownerId,jdbcType=BIGINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
