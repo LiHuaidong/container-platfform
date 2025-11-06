@@ -20,12 +20,12 @@ public class UserProjectPermissionsDTO {
     private String username;
     private Long projectId;
     private String projectName;
-    private List<UserRole> roles;
+    private List<UserPermission> permissions;
 
     @Data
     @NoArgsConstructor
     @SuperBuilder
-    static class UserRole {
+    static class UserPermission {
         private Long permissionId;
         private String permissionName;
     }

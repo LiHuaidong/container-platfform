@@ -3,28 +3,41 @@ package hdli.auth.service.impl;
 import hdli.auth.mapper.UserMapper;
 import hdli.auth.model.dto.UserDetailDTO;
 import hdli.auth.model.dto.UserLoginDTO;
+import hdli.auth.model.dto.UserProjectPermissionsDTO;
 import hdli.auth.model.dto.UserRegisterDTO;
 import hdli.auth.model.po.UserPO;
 import hdli.auth.service.IAuthService;
+import hdli.auth.service.IPermissionService;
 import hdli.auth.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class AuthService implements IAuthService {
 
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private IPermissionService permissionService;
+
     @Resource
     private JwtUtil jwtUtil;
+
     @Resource
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public String login(UserLoginDTO user) {
@@ -32,7 +45,11 @@ public class AuthService implements IAuthService {
         if (existingUser == null || !passwordEncoder.matches(user.getPassword(), existingUser.getPasswordHash())) {
             throw new RuntimeException("Invalid username or password");
         }
-        return jwtUtil.generateToken(existingUser.getUsername());
+        String token = jwtUtil.generateToken(existingUser.getUsername());
+
+        List<UserProjectPermissionsDTO> permissions = permissionService.getPermissions(existingUser.getId(), null, null);
+        redisTemplate.opsForValue().set(existingUser.getUsername(), permissions, 24, TimeUnit.HOURS);
+        return token;
     }
 
     @Transactional
@@ -63,7 +80,12 @@ public class AuthService implements IAuthService {
         if (claims == null || claims.getExpiration().before(new Date())) {
             throw new RuntimeException("Invalid or expired token");
         }
-        return jwtUtil.generateToken(claims.getSubject());
+        String username = claims.getSubject();
+        UserPO existingUser = userMapper.selectByUsername(username);
+        List<UserProjectPermissionsDTO> permissions = permissionService.getPermissions(existingUser.getId(), null, null);
+        String newToken = jwtUtil.generateToken(username);
+        redisTemplate.opsForValue().set(existingUser.getUsername(), permissions, 24, TimeUnit.HOURS);
+        return newToken;
     }
 
     @Override
@@ -72,6 +94,8 @@ public class AuthService implements IAuthService {
         if (claims == null || claims.getExpiration().before(new Date())) {
             throw new RuntimeException("Invalid or expired token");
         }
+        String username = claims.getSubject();
+        redisTemplate.delete(username);
     }
 
     @Override

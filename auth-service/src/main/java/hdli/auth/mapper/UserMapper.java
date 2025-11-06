@@ -1,10 +1,10 @@
 package hdli.auth.mapper;
 
 import hdli.auth.model.po.UserPO;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-@ResponseBody
+@Mapper
 public interface UserMapper {
     int deleteByPrimaryKey(Long id);
 

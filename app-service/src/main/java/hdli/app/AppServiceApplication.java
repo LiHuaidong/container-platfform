@@ -1,13 +1,13 @@
-package hdli.cluster;
+package hdli.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ClusterServiceApplication {
+public class AppServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ClusterServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AppServiceApplication.class, args);
+    }
 
 }

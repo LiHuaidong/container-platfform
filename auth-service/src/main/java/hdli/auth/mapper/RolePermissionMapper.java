@@ -2,7 +2,9 @@ package hdli.auth.mapper;
 
 
 import hdli.auth.model.po.RolePermissionPO;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface RolePermissionMapper {
     int deleteByPrimaryKey(Long id);
 
